@@ -65,7 +65,7 @@ function LeadForm() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ ...data, tvBrand: data.tvBrand }),
             });
 
             if (!response.ok) {
@@ -163,8 +163,6 @@ function LeadForm() {
 }
 
 export default function Home() {
-    const heroImage = PlaceHolderImages.find((img) => img.id === "tv-repair-hero");
-
     const services = [
         { icon: <Tv className="h-8 w-8" />, title: "All TV Brands", description: "Samsung, LG, Sony, & more." },
         { icon: <Settings className="h-8 w-8" />, title: "All TV Types", description: "LED, OLED, QLED, 4K, Smart TV." },
@@ -208,44 +206,33 @@ export default function Home() {
         <div className="flex flex-col min-h-screen bg-background">
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="relative h-[80vh] min-h-[600px] w-full flex items-center">
-                    {heroImage && (
-                        <Image
-                            src={heroImage.imageUrl}
-                            alt={heroImage.description}
-                            fill
-                            className="object-cover"
-                            priority
-                            data-ai-hint={heroImage.imageHint}
-                        />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-                    <div className="relative z-10 container mx-auto px-4">
+                <section className="py-20 md:py-32">
+                    <div className="container mx-auto px-4">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            <div className="animate-fade-in-up text-white">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline tracking-tight">
+                            <div className="animate-fade-in-up">
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline tracking-tight text-primary">
                                     Expert TV Repair At Your Doorstep.
                                 </h1>
-                                <p className="mt-6 text-lg md:text-xl max-w-xl text-slate-200">
+                                <p className="mt-6 text-lg md:text-xl max-w-xl text-muted-foreground">
                                     Don't let a broken TV ruin your day. We fix all brands, all models, with a service warranty. Get a free quote now!
                                 </p>
                                 <div className="mt-8 grid sm:grid-cols-2 gap-6 max-w-md">
                                     <div className="flex items-center gap-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
-                                            <ShieldCheck className="h-6 w-6" />
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                            <ShieldCheck className="h-6 w-6 text-primary" />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold">Transparent Pricing</h3>
-                                            <p className="text-sm text-slate-300">No hidden fees, ever.</p>
+                                            <h3 className="font-semibold text-foreground">Transparent Pricing</h3>
+                                            <p className="text-sm text-muted-foreground">No hidden fees, ever.</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
-                                            <Clock className="h-6 w-6" />
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                                            <Clock className="h-6 w-6 text-primary" />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold">Quick Response</h3>
-                                            <p className="text-sm text-slate-300">Same-day service available.</p>
+                                            <h3 className="font-semibold text-foreground">Quick Response</h3>
+                                            <p className="text-sm text-muted-foreground">Same-day service available.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -258,7 +245,7 @@ export default function Home() {
                 </section>
 
                 {/* Services Bar */}
-                <section className="py-12 bg-background border-y">
+                <section className="py-12 bg-card border-y">
                     <div className="container mx-auto px-4">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                             {services.map(service => (
@@ -273,7 +260,7 @@ export default function Home() {
                 </section>
 
                 {/* Why Choose Us Section */}
-                <section id="why-us" className="py-16 md:py-24 bg-card">
+                <section id="why-us" className="py-16 md:py-24 bg-background">
                     <div className="container mx-auto px-4">
                         <div className="text-center max-w-3xl mx-auto">
                             <h2 className="text-3xl md:text-4xl font-bold font-headline">Why Choose Custom TV Repair?</h2>
@@ -296,7 +283,7 @@ export default function Home() {
                 </section>
 
                 {/* Testimonials Section */}
-                <section id="testimonials" className="py-16 md:py-24 bg-background">
+                <section id="testimonials" className="py-16 md:py-24 bg-card">
                     <div className="container mx-auto px-4">
                         <div className="text-center max-w-3xl mx-auto">
                             <h2 className="text-3xl md:text-4xl font-bold font-headline">What Our Customers Say</h2>
@@ -306,7 +293,7 @@ export default function Home() {
                         </div>
                         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                             {testimonials.map((testimonial, index) => (
-                                <Card key={index} className="bg-card animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
+                                <Card key={index} className="bg-background animate-fade-in-up" style={{ animationDelay: `${index * 150}ms` }}>
                                     <CardContent className="p-6">
                                         <div className="flex items-center gap-0.5 mb-4">
                                             {[...Array(testimonial.stars)].map((_, i) => <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />)}
@@ -321,7 +308,7 @@ export default function Home() {
                 </section>
 
                 {/* FAQ Section */}
-                <section id="faq" className="py-16 md:py-24 bg-card">
+                <section id="faq" className="py-16 md:py-24 bg-background">
                     <div className="container mx-auto px-4 max-w-4xl">
                         <div className="text-center max-w-3xl mx-auto">
                             <h2 className="text-3xl md:text-4xl font-bold font-headline">Frequently Asked Questions</h2>
