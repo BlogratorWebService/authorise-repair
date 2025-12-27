@@ -1,4 +1,3 @@
-
 // 1. Open your Google Sheet.
 // 2. Go to Extensions > Apps Script.
 // 3. Paste this code into the script editor and save the project.
@@ -7,7 +6,7 @@
 // 6. In the "Who has access" dropdown, select "Anyone".
 // 7. Click "Deploy".
 // 8. Authorize the script when prompted.
-// 9. Copy the provided Web app URL and set it as the value for the `APPS_SCRIPT_URL` environment variable in your project.
+// 9. Copy the provided Web app URL and set it as the value for the `APPS_SCRIPT_URL` environment variable in your Vercel project.
 
 const SHEET_NAME = 'Sheet1'; // Change this if your sheet name is different
 
@@ -41,5 +40,3 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
-
-    
