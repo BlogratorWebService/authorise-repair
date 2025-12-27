@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import WhatsAppButton from "@/components/whatsapp-button";
 import ClientProvider from "@/components/client-provider";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 
 const leadSchema = z.object({
@@ -87,8 +88,10 @@ function LeadForm() {
         }
     };
     
-    const { name, phone, tvBrand, issue } = getValues();
-    const whatsappMessage = `https://wa.me/918858585559?text=${encodeURIComponent(`Hello, I've just submitted a quote request.\n\nName: ${name}\nPhone: ${phone}\nBrand: ${tvBrand}\nIssue: ${issue}`)}`;
+    const getWhatsappMessage = () => {
+        const { name, phone, tvBrand, issue } = getValues();
+        return `https://wa.me/918858585559?text=${encodeURIComponent(`Hello, I've just submitted a quote request.\n\nName: ${name}\nPhone: ${phone}\nBrand: ${tvBrand}\nIssue: ${issue}`)}`;
+    }
 
     return (
         <>
@@ -140,7 +143,7 @@ function LeadForm() {
                     </AlertDialogHeader>
                     <AlertDialogFooter className="flex flex-col sm:flex-row sm:justify-start gap-2">
                          <AlertDialogAction asChild className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white">
-                            <Link href={whatsappMessage} target="_blank">
+                            <Link href={getWhatsappMessage()} target="_blank">
                                 <MessageSquare className="mr-2 h-4 w-4" /> Connect on WhatsApp
                             </Link>
                         </AlertDialogAction>
@@ -160,6 +163,8 @@ function LeadForm() {
 }
 
 export default function Home() {
+    const heroImage = PlaceHolderImages.find((img) => img.id === "tv-repair-hero");
+
     const services = [
         { icon: <Tv className="h-8 w-8" />, title: "All TV Brands", description: "Samsung, LG, Sony, & more." },
         { icon: <Settings className="h-8 w-8" />, title: "All TV Types", description: "LED, OLED, QLED, 4K, Smart TV." },
@@ -203,33 +208,44 @@ export default function Home() {
         <div className="flex flex-col min-h-screen bg-background">
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="bg-card dots-pattern">
-                    <div className="container mx-auto px-4 py-16 md:py-24">
+                <section className="relative h-[80vh] min-h-[600px] w-full flex items-center">
+                    {heroImage && (
+                        <Image
+                            src={heroImage.imageUrl}
+                            alt={heroImage.description}
+                            fill
+                            className="object-cover"
+                            priority
+                            data-ai-hint={heroImage.imageHint}
+                        />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                    <div className="relative z-10 container mx-auto px-4">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            <div className="animate-fade-in-up">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline tracking-tight text-primary">
+                            <div className="animate-fade-in-up text-white">
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline tracking-tight">
                                     Expert TV Repair At Your Doorstep.
                                 </h1>
-                                <p className="mt-6 text-lg md:text-xl max-w-xl text-muted-foreground">
+                                <p className="mt-6 text-lg md:text-xl max-w-xl text-slate-200">
                                     Don't let a broken TV ruin your day. We fix all brands, all models, with a service warranty. Get a free quote now!
                                 </p>
                                 <div className="mt-8 grid sm:grid-cols-2 gap-6 max-w-md">
                                     <div className="flex items-center gap-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
                                             <ShieldCheck className="h-6 w-6" />
                                         </div>
                                         <div>
                                             <h3 className="font-semibold">Transparent Pricing</h3>
-                                            <p className="text-sm text-muted-foreground">No hidden fees, ever.</p>
+                                            <p className="text-sm text-slate-300">No hidden fees, ever.</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
                                             <Clock className="h-6 w-6" />
                                         </div>
                                         <div>
                                             <h3 className="font-semibold">Quick Response</h3>
-                                            <p className="text-sm text-muted-foreground">Same-day service available.</p>
+                                            <p className="text-sm text-slate-300">Same-day service available.</p>
                                         </div>
                                     </div>
                                 </div>
