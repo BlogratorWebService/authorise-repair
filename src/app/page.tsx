@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Image from "next/image";
@@ -206,8 +207,9 @@ export default function Home() {
         <div className="flex flex-col min-h-screen bg-background">
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="py-20 md:py-32">
-                    <div className="container mx-auto px-4">
+                <section className="relative py-20 md:py-32">
+                    <div className="absolute inset-0 dots-pattern"></div>
+                    <div className="container mx-auto px-4 relative">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <div className="animate-fade-in-up">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline tracking-tight text-primary">
