@@ -3,11 +3,11 @@ import Link from "next/link";
 
 const footerLinks = {
   services: [
-    { name: "LED TV Repair", href: "/services" },
-    { name: "OLED & QLED TV Repair", href: "/services" },
-    { name: "Smart TV Repair", href: "/services" },
-    { name: "Screen Replacement", href: "/services" },
-    { name: "Motherboard Repair", href: "/services" },
+    { name: "Prime Home Club TV Repair", href: "/services/tv-repair" },
+    { name: "Prime Home Club AC Repair", href: "/services/ac-repair" },
+    { name: "Prime Home Club Washing Machine Repair", href: "/services/washing-machine-repair" },
+    { name: "Prime Home Club Refrigerator Repair", href: "/services/refrigerator-repair" },
+    { name: "Prime Home Club Geyser Repair", href: "/services/geyser-repair" },
   ],
   quickLinks: [
     { name: "Home", href: "/" },
@@ -15,6 +15,10 @@ const footerLinks = {
     { name: "About Us", href: "/about" },
     { name: "Contact", href: "/contact" },
     { name: "FAQ", href: "/#faq" },
+  ],
+  legal: [
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms-conditions" },
   ],
 };
 
@@ -25,11 +29,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-1 md:col-span-4 lg:col-span-2 pr-8">
             <Link href="/" className="text-xl font-bold text-primary font-headline mb-4 inline-block">
-              Custom TV Repair
+              Prime Home Club
             </Link>
             <p className="text-muted-foreground text-sm max-w-sm">
-              Your trusted partner for expert TV repair services across all brands and models. Fast, reliable, and always at your doorstep.
+              Prime Home Club is Mumbai's trusted appliance repair service provider, offering professional repairs for TV, AC, Refrigerator, Washing Machine, and Geyser with at-home service and warranty.
             </p>
+            <p className="text-xs text-muted-foreground mt-4">CIN: U95221MH2024PTC433126</p>
+            <p className="text-xs text-muted-foreground">Website Operated By Prime Home Club Pvt. Ltd.</p>
           </div>
 
           <div className="col-span-1">
@@ -57,22 +63,35 @@ export default function Footer() {
             </ul>
           </div>
            <div className="col-span-full sm:col-span-2 md:col-span-1">
-            <h3 className="font-headline font-semibold text-foreground">Contact Us</h3>
+            <h3 className="font-headline font-semibold text-foreground">Prime Home Club Contact</h3>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                <li>Mumbai, Maharashtra</li>
+                <li>1st Floor, P 101 Godrej Central Rehab, Chembur, Mumbai, Maharashtra 400071, India</li>
                 <li><a href="tel:+918858585559" className="hover:text-primary">Call: +91 88585 85559</a></li>
-                <li><a href="mailto:info@customtvrepair.com" className="hover:text-primary">info@customtvrepair.com</a></li>
+                <li><a href="mailto:info@primehomeclub.com" className="hover:text-primary">info@primehomeclub.com</a></li>
+                <li>Mon-Sat: 9am - 8pm</li>
+                <li>Sunday: 10am - 5pm</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 pt-8 border-t">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground text-center sm:text-left">
-              &copy; {new Date().getFullYear()} CustomTvRepair.com. All rights reserved.
-            </p>
-             <p className="text-xs text-muted-foreground">
-              Disclaimer: We are an independent service provider and not affiliated with any TV brand.
+            <div className="text-center sm:text-left">
+              <p className="text-sm text-muted-foreground">
+                &copy; {new Date().getFullYear()} Prime Home Club Pvt. Ltd. All rights reserved.
+              </p>
+              <div className="flex gap-4 mt-2 justify-center sm:justify-start">
+                {footerLinks.legal.map((link) => (
+                  <Link key={link.name} href={link.href} className="text-xs text-muted-foreground hover:text-primary">
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 pt-6 border-t text-center">
+            <p className="text-xs text-muted-foreground">
+              Disclaimer: Prime Home Club is an independent service provider offering out-of-warranty appliance repair services. We are not affiliated with, endorsed by, or authorized by any appliance or TV manufacturer, and we do not provide warranty repairs or handle manufacturer warranty claims.
             </p>
           </div>
         </div>

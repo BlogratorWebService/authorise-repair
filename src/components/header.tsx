@@ -11,8 +11,8 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle,
 import { cn } from "@/lib/utils";
 
 const Logo = () => (
-  <Link href="/" aria-label="Custom TV Repair" className="text-xl font-bold uppercase text-primary font-headline">
-    Custom TV Repair
+  <Link href="/" aria-label="Prime Home Club" className="text-xl font-bold uppercase text-primary font-headline">
+    Prime Home Club
   </Link>
 );
 
