@@ -4,41 +4,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Star, ShieldCheck, Tv, Wrench, Clock, Users, ThumbsUp, Check, Settings, MessageSquare, Briefcase, Phone } from "lucide-react";
-import React from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { ArrowRight, Star, ShieldCheck, Tv, Wrench, Clock, Users, ThumbsUp, Check, Settings, Briefcase, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import WhatsAppButton from "@/components/whatsapp-button";
 import ClientProvider from "@/components/client-provider";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-
-
-const leadSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters."),
-    phone: z.string().min(10, "Please enter a valid phone number."),
-    issue: z.string().min(10, "Please describe the issue in a bit more detail."),
-    tvBrand: z.string().optional(),
-});
-
-type LeadFormInputs = z.infer<typeof leadSchema>;
+import LeadForm from "@/components/lead-form";
 
 function FloatingCallButton() {
   return (
@@ -50,117 +24,6 @@ function FloatingCallButton() {
       <Phone className="w-8 h-8"/>
     </a>
   );
-}
-
-function LeadForm() {
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues } = useForm<LeadFormInputs>({
-        resolver: zodResolver(leadSchema),
-    });
-    const { toast } = useToast();
-    const [showWhatsAppDialog, setShowWhatsAppDialog] = React.useState(false);
-
-    const onSubmit: SubmitHandler<LeadFormInputs> = async (data) => {
-        try {
-            const response = await fetch('/api/leads', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ ...data, tvBrand: data.tvBrand }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Something went wrong.");
-            }
-
-            toast({
-                title: "Quote Request Sent!",
-                description: "We've received your request and will contact you shortly.",
-            });
-            setShowWhatsAppDialog(true); 
-
-        } catch (error: any) {
-            toast({
-                variant: "destructive",
-                title: "Submission Failed",
-                description: error.message || "Could not submit your request. Please try again.",
-            });
-        }
-    };
-    
-    const getWhatsappMessage = () => {
-        const { name, phone, tvBrand, issue } = getValues();
-        return `https://wa.me/918858585559?text=${encodeURIComponent(`Hello, I've just submitted a quote request.\n\nName: ${name}\nPhone: ${phone}\nBrand: ${tvBrand}\nIssue: ${issue}`)}`;
-    }
-
-    return (
-        <>
-            <Card id="lead-form" className="w-full max-w-lg shadow-lg">
-                <CardHeader>
-                    <CardTitle className="font-headline text-2xl">Get a Free Quote</CardTitle>
-                    <CardDescription>Fill out the form and our expert will call you back in minutes.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-                            <Input id="name" {...register("name")} placeholder="Your Name" />
-                            {errors.name && <p className="text-destructive text-sm">{errors.name.message}</p>}
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="phone">Number</Label>
-                            <Input id="phone" type="tel" {...register("phone")} placeholder="Your Phone Number" />
-                            {errors.phone && <p className="text-destructive text-sm">{errors.phone.message}</p>}
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="tvBrand">Brand</Label>
-                            <Input id="tvBrand" {...register("tvBrand")} placeholder="e.g., Samsung, LG, Sony" />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="issue">Issue</Label>
-                            <Textarea id="issue" {...register("issue")} placeholder="e.g., TV not turning on, lines on screen..." />
-                            {errors.issue && <p className="text-destructive text-sm">{errors.issue.message}</p>}
-                        </div>
-                        <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? "Submitting..." : "Get My Free Quote"}
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
-
-            <AlertDialog open={showWhatsAppDialog} onOpenChange={(isOpen) => {
-              if (!isOpen) {
-                reset();
-              }
-              setShowWhatsAppDialog(isOpen);
-            }}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Thank You For Your Request!</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Our team will call you back shortly. For an even faster response, you can connect with us instantly.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="flex flex-col sm:flex-row sm:justify-start gap-2">
-                         <AlertDialogAction asChild className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white">
-                            <Link href={getWhatsappMessage()} target="_blank">
-                                <MessageSquare className="mr-2 h-4 w-4" /> Connect on WhatsApp
-                            </Link>
-                        </AlertDialogAction>
-                         <AlertDialogAction asChild className="w-full sm:w-auto bg-primary hover:bg-primary/90">
-                           <a href="tel:+918858585559">
-                                <Phone className="mr-2 h-4 w-4" /> Call Now
-                            </a>
-                        </AlertDialogAction>
-                         <AlertDialogAction asChild variant="outline" className="w-full sm:w-auto" onClick={() => setShowWhatsAppDialog(false)}>
-                            <Button type="button">Close</Button>
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </>
-    );
 }
 
 export default function Home() {
