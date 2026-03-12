@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, ShieldCheck, Clock, Users, ThumbsUp } from "lucide-react";
+import { ArrowRight, Check, ShieldCheck, Clock, Users, ThumbsUp, Phone, MessageCircle } from "lucide-react";
 
 import { serviceCategories, services as allServices } from "@/lib/data";
 import {
@@ -100,6 +100,20 @@ export default async function ServiceCategoryPage({ params }: ServiceCategoryPag
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
               {category.description} We offer a range of solutions to meet your needs.
             </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+              <Button asChild size="lg" variant="outline" className="border-2 border-red-600 text-red-600 hover:bg-red-50">
+                <a href="tel:+918858585559">
+                  <Phone className="mr-2 h-4 w-4" />
+                  Call: +91 88585 85559
+                </a>
+              </Button>
+              <Button asChild size="lg" className="bg-green-600 hover:bg-green-700 text-white shadow-md">
+                <a href="https://wa.me/918858585559" target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  WhatsApp Us
+                </a>
+              </Button>
+            </div>
           </div>
         )}
 
